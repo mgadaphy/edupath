@@ -50,7 +50,7 @@ EduPath is an AI-powered educational guidance system designed to help Cameroonia
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/edupath.git
+   git clone https://github.com/mgadaphy/edupath.git
    cd edupath
    ```
 

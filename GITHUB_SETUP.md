@@ -54,7 +54,7 @@ This guide will walk you through setting up GitHub for the EduPath project, incl
 
 2. **Add remote repository**
    ```bash
-   git remote add origin git@github.com:yourusername/edupath.git
+   git remote add origin git@github.com:mgadaphy/edupath.git
    ```
 
 3. **Create .gitignore file** (if not already created)
