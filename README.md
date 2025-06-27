@@ -1,8 +1,8 @@
 # React + TypeScript# EduPath - Your Guide to Academic and Career Success in Cameroon
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub issues](https://img.shields.io/github/issues/yourusername/edupath)](https://github.com/yourusername/edupath/issues)
-[![GitHub stars](https://img.shields.io/github/stars/yourusername/edupath)](https://github.com/yourusername/edupath/stargazers)
+[![GitHub issues](https://img.shields.io/github/issues/mgadaphy/edupath)](https://github.com/mgadaphy/edupath/issues)
+[![GitHub stars](https://img.shields.io/github/stars/mgadaphy/edupath)](https://github.com/mgadaphy/edupath/stargazers)
 
 EduPath is an AI-powered educational guidance system designed to help Cameroonian students make informed decisions about their academic and career paths. The system provides personalized recommendations for university programs and career paths based on students' academic performance, interests, and job market trends.
 
