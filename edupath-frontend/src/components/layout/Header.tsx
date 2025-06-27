@@ -1,42 +1,40 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { GraduationCap, Menu, X, Globe, User, LogIn, UserPlus } from 'lucide-react';
+import { 
+  GraduationCap, 
+  Menu, 
+  X,
+  LogIn,
+  LogOut,
+  UserPlus,
+  Globe,
+  User as UserIcon
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { 
-  DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuItem, 
-  DropdownMenuTrigger, 
-  DropdownMenuSeparator 
-} from '@/components/ui/dropdown-menu';
 import { useSession } from '@/contexts/SessionContext';
 import { useAuth } from '@/contexts/AuthContext';
 
-const Header: React.FC = () => {
+const NewHeader: React.FC = () => {
   const location = useLocation();
   const { language, setLanguage, sessionId, clearSession } = useSession();
-  const [isOpen, setIsOpen] = useState(false);
-
   const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
 
-  // Public navigation items
-  const publicNavigation = [
+  // Navigation items
+  const navigation = [
     { name: 'Home', href: '/', current: location.pathname === '/' },
     { name: 'Universities', href: '/universities', current: location.pathname === '/universities' },
     { name: 'About', href: '/about', current: location.pathname === '/about' },
   ];
 
-  // Authenticated user navigation items
-  const authNavigation = [
-    { name: 'Dashboard', href: '/dashboard', current: location.pathname === '/dashboard' },
-    { name: 'My Profile', href: '/profile', current: location.pathname === '/profile' },
-    { name: 'Recommendations', href: '/recommendations', current: location.pathname === '/recommendations' },
-    { name: 'Universities', href: '/universities', current: location.pathname === '/universities' },
-  ];
-
-  const navigation = isAuthenticated ? authNavigation : publicNavigation;
+  if (isAuthenticated) {
+    navigation.unshift(
+      { name: 'Dashboard', href: '/dashboard', current: location.pathname === '/dashboard' },
+      { name: 'My Profile', href: '/profile', current: location.pathname === '/profile' },
+      { name: 'Recommendations', href: '/recommendations', current: location.pathname === '/recommendations' }
+    );
+  }
 
   const toggleLanguage = () => {
     setLanguage(language === 'en' ? 'fr' : 'en');
@@ -80,132 +78,121 @@ const Header: React.FC = () => {
 
           {/* Right Side Actions */}
           <div className="flex items-center space-x-2">
-            {/* Language Toggle */}
-            <Button
-              variant="ghost"
-              size="icon"
+            {/* Language Switcher */}
+            <button
               onClick={toggleLanguage}
-              className="hidden sm:flex"
-              title={language === 'en' ? 'Switch to French' : 'Passer à l\'anglais'}
+              className="px-3 py-1 text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors"
+              aria-label={language === 'en' ? 'Switch to French' : 'Switch to English'}
             >
-              <Globe className="h-4 w-4" />
-              <span className="ml-1 text-xs">{language.toUpperCase()}</span>
-            </Button>
+              {language === 'en' ? 'FR' : 'EN'}
+            </button>
 
-            {/* Session Status */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="hidden sm:flex">
-                  <User className="h-4 w-4" />
+            {/* Authentication Buttons */}
+            {isAuthenticated ? (
+              <div className="hidden md:flex items-center space-x-2">
+                <Button 
+                  onClick={() => navigate('/profile')}
+                  className="h-9 px-3 bg-transparent border border-input hover:bg-accent hover:text-accent-foreground"
+                >
+                  <UserIcon className="h-4 w-4 mr-2" />
+                  Profile
                 </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                {sessionId ? (
-                  <>
-                    <DropdownMenuItem disabled>
-                      Session: {sessionId.slice(0, 8)}...
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={clearSession}>
-                      Clear Session
-                    </DropdownMenuItem>
-                  </>
-                ) : (
-                  <DropdownMenuItem disabled>
-                    No active session
-                  </DropdownMenuItem>
-                )}
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            {/* Mobile Menu */}
-            <Sheet open={isOpen} onOpenChange={setIsOpen}>
-              <div className="flex items-center space-x-2">
-                <Button variant="outline" size="sm" onClick={toggleLanguage} className="h-9 w-9 p-0">
-                  <Globe className="h-4 w-4" />
-                  <span className="sr-only">Toggle language</span>
+                <Button 
+                  onClick={() => {
+                    logout();
+                    navigate('/');
+                  }}
+                  className="h-9 px-3 text-red-600 hover:text-red-700 hover:bg-red-50"
+                >
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Sign Out
                 </Button>
-                {isAuthenticated ? (
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="outline" size="sm" className="h-9">
-                        <User className="h-4 w-4 mr-2" />
-                        My Account
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem onClick={() => navigate('/profile')}>
-                        <User className="h-4 w-4 mr-2" />
-                        Profile
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem onClick={logout}>
-                        <LogIn className="h-4 w-4 mr-2" />
-                        Sign Out
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                ) : (
-                  <>
-                    <Button variant="outline" size="sm" className="h-9" onClick={() => navigate('/login')}>
-                      <LogIn className="h-4 w-4 mr-2" />
-                      Sign In
-                    </Button>
-                    <Button size="sm" className="h-9" onClick={() => navigate('/register')}>
-                      <UserPlus className="h-4 w-4 mr-2" />
-                      Register
-                    </Button>
-                  </>
-                )}
               </div>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="md:hidden">
-                  <Menu className="h-5 w-5" />
+            ) : (
+              <div className="hidden md:flex items-center space-x-2">
+                <Button 
+                  onClick={() => navigate('/login')}
+                  className="h-9 px-3 bg-transparent border border-input hover:bg-accent hover:text-accent-foreground"
+                >
+                  <LogIn className="h-4 w-4 mr-2" />
+                  Sign In
                 </Button>
-              </SheetTrigger>
-              <SheetContent side="right" className="w-64">
-                <div className="flex flex-col space-y-4 mt-8">
-                  {navigation.map((item) => (
-                    <Link
-                      key={item.name}
-                      to={item.href}
-                      onClick={() => setIsOpen(false)}
-                      className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${
-                        item.current
-                          ? 'bg-blue-100 text-blue-700'
-                          : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50'
-                      }`}
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
-                  
-                  <div className="border-t pt-4">
-                    <Button
-                      variant="ghost"
-                      onClick={toggleLanguage}
-                      className="w-full justify-start"
-                    >
-                      <Globe className="h-4 w-4 mr-2" />
-                      {language === 'en' ? 'Français' : 'English'}
-                    </Button>
-                    
-                    {sessionId && (
-                      <Button
-                        variant="ghost"
-                        onClick={() => {
-                          clearSession();
-                          setIsOpen(false);
-                        }}
-                        className="w-full justify-start mt-2"
-                      >
-                        <User className="h-4 w-4 mr-2" />
-                        Clear Session
-                      </Button>
-                    )}
+                <Button 
+                  onClick={() => navigate('/register')}
+                  className="h-9 px-3 bg-primary text-primary-foreground hover:bg-primary/90"
+                >
+                  <UserPlus className="h-4 w-4 mr-2" />
+                  Register
+                </Button>
+              </div>
+            )}
+
+            {/* Mobile Menu Button */}
+            <div className="md:hidden">
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button className="h-10 w-10 p-0">
+                    <Menu className="h-5 w-5" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right" className="w-64 p-0">
+                  <div className="flex flex-col h-full">
+                    <div className="p-4 border-b flex justify-between items-center">
+                      <h3 className="text-lg font-semibold">Menu</h3>
+                      <SheetTrigger asChild>
+                        <Button className="h-8 w-8 p-0 hover:bg-accent hover:text-accent-foreground">
+                          <X className="h-4 w-4" />
+                        </Button>
+                      </SheetTrigger>
+                    </div>
+                    <div className="flex-1 overflow-y-auto p-4">
+                      <div className="flex flex-col space-y-2">
+                        {navigation.map((item) => (
+                          <Link
+                            key={item.name}
+                            to={item.href}
+                            onClick={() => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))}
+                            className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${
+                              item.current
+                                ? 'bg-blue-100 text-blue-700'
+                                : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50'
+                            }`}
+                          >
+                            {item.name}
+                          </Link>
+                        ))}
+                      </div>
+                      
+                      <div className="border-t pt-4 mt-4">
+                        <button
+                          onClick={() => {
+                            toggleLanguage();
+                            document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+                          }}
+                          className="w-full flex items-center px-3 py-2 text-left text-sm font-medium hover:bg-accent rounded-md"
+                        >
+                          <Globe className="h-4 w-4 mr-2" />
+                          {language === 'en' ? 'Français' : 'English'}
+                        </button>
+                        
+                        {sessionId && (
+                          <button
+                            onClick={() => {
+                              clearSession();
+                              document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+                            }}
+                            className="w-full flex items-center px-3 py-2 text-left text-sm font-medium hover:bg-accent rounded-md mt-2"
+                          >
+                            <UserIcon className="h-4 w-4 mr-2" />
+                            Clear Session
+                          </button>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </SheetContent>
-            </Sheet>
+                </SheetContent>
+              </Sheet>
+            </div>
           </div>
         </div>
       </div>
@@ -213,4 +200,4 @@ const Header: React.FC = () => {
   );
 };
 
-export default Header;
+export default NewHeader;

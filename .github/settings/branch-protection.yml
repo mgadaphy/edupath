@@ -1,0 +1,36 @@
+# Branch protection rules for the repository
+# This file configures branch protection settings for the main branch
+
+# Branch protection rules for main branch
+main:
+  # Require a pull request before merging
+  required_pull_request_reviews:
+    required_approving_review_count: 1
+    require_code_owner_reviews: true
+    dismiss_stale_reviews: true
+    require_last_push_approval: true
+  
+  # Require status checks to pass before merging
+  required_status_checks:
+    strict: true
+    contexts:
+      - "CI / Test"
+      - "CI / Build"
+  
+  # Enforce branch protection rules for administrators
+  enforce_admins: false
+  
+  # Require linear history
+  required_linear_history: true
+  
+  # Allow force pushes
+  allow_force_pushes: false
+  
+  # Allow deletions
+  allow_deletions: false
+  
+  # Restrict who can push to matching branches
+  restrictions: null  # Set to team/user logins to restrict pushes
+  
+  # Require conversation resolution before merging
+  required_conversation_resolution: true

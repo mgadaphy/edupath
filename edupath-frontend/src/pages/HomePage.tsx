@@ -77,9 +77,9 @@ const HomePage: React.FC = () => {
       {/* Hero Section */}
       <section className="text-center space-y-8">
         <div className="space-y-4">
-          <Badge variant="secondary" className="mb-4">
+          <div className="mb-4 inline-flex items-center rounded-md border border-transparent bg-secondary px-2.5 py-0.5 text-xs font-semibold text-secondary-foreground transition-colors hover:bg-secondary/80">
             {language === 'en' ? '🇨🇲 Made for Cameroon' : '🇨🇲 Fait pour le Cameroun'}
-          </Badge>
+          </div>
           <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-green-600 bg-clip-text text-transparent">
             {language === 'en' ? 'Your Guide to Academic Success' : 'Votre Guide vers le Succès Académique'}
           </h1>
@@ -93,7 +93,7 @@ const HomePage: React.FC = () => {
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <Link to={sessionId ? "/profile" : "/profile"}>
-            <Button size="lg" className="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white px-8 py-3">
+            <Button className="h-12 rounded-md bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white px-8 py-3">
               <GraduationCap className="mr-2 h-5 w-5" />
               {language === 'en' ? 'Get Started' : 'Commencer'}
               <ArrowRight className="ml-2 h-4 w-4" />
