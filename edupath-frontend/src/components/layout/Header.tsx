@@ -40,6 +40,11 @@ const NewHeader: React.FC = () => {
     setLanguage(language === 'en' ? 'fr' : 'en');
   };
 
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-white/80 backdrop-blur-md">
       <div className="container mx-auto px-4">
@@ -91,38 +96,38 @@ const NewHeader: React.FC = () => {
             {isAuthenticated ? (
               <div className="hidden md:flex items-center space-x-2">
                 <Button 
+                  variant="outline"
                   onClick={() => navigate('/profile')}
-                  className="h-9 px-3 bg-transparent border border-input hover:bg-accent hover:text-accent-foreground"
+                  className="h-9 px-4 text-gray-700 border-gray-300 hover:bg-gray-50 hover:text-gray-900"
                 >
                   <UserIcon className="h-4 w-4 mr-2" />
                   Profile
                 </Button>
                 <Button 
-                  onClick={() => {
-                    logout();
-                    navigate('/');
-                  }}
-                  className="h-9 px-3 text-red-600 hover:text-red-700 hover:bg-red-50"
+                  variant="outline"
+                  onClick={handleLogout}
+                  className="h-9 px-4 text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700"
                 >
                   <LogOut className="h-4 w-4 mr-2" />
-                  Sign Out
+                  Sign out
                 </Button>
               </div>
             ) : (
               <div className="hidden md:flex items-center space-x-2">
                 <Button 
+                  variant="outline"
                   onClick={() => navigate('/login')}
-                  className="h-9 px-3 bg-transparent border border-input hover:bg-accent hover:text-accent-foreground"
+                  className="h-9 px-4 text-gray-700 border-gray-300 hover:bg-gray-50 hover:text-gray-900"
                 >
                   <LogIn className="h-4 w-4 mr-2" />
-                  Sign In
+                  Sign in
                 </Button>
                 <Button 
                   onClick={() => navigate('/register')}
-                  className="h-9 px-3 bg-primary text-primary-foreground hover:bg-primary/90"
+                  className="h-9 px-4 bg-blue-600 hover:bg-blue-700 text-white"
                 >
                   <UserPlus className="h-4 w-4 mr-2" />
-                  Register
+                  Sign up
                 </Button>
               </div>
             )}
