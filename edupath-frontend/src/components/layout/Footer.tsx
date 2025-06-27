@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { GraduationCap, Heart, Github, Mail } from 'lucide-react';
+import { GraduationCap, Heart, Github, Mail, ExternalLink as ExternalLinkIcon } from 'lucide-react';
 
 const Footer: React.FC = () => {
   return (
@@ -21,8 +21,16 @@ const Footer: React.FC = () => {
               AI-powered educational guidance system helping Cameroonian students 
               make informed decisions about their academic and career paths.
             </p>
-            <div className="text-xs text-gray-500">
+            <div className="text-xs text-gray-500 mt-2">
               Empowering students • Bridging education and employment • Building Cameroon's future
+            </div>
+            <div className="mt-4 text-xs text-gray-500 border-t pt-3">
+              <p>Developed by <a href="https://mogadonko.com" target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline inline-flex items-center">
+                Mo Gadaphy <ExternalLinkIcon className="h-3 w-3 ml-1" />
+              </a></p>
+              <p className="mt-1">A <a href="https://mogadonko.com" target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline">
+                MOGADONKO AGENCY
+              </a> Project</p>
             </div>
           </div>
 

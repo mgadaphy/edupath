@@ -1,23 +1,42 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { GraduationCap, Menu, X, Globe, User } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { GraduationCap, Menu, X, Globe, User, LogIn, UserPlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuTrigger, 
+  DropdownMenuSeparator 
+} from '@/components/ui/dropdown-menu';
 import { useSession } from '@/contexts/SessionContext';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Header: React.FC = () => {
   const location = useLocation();
   const { language, setLanguage, sessionId, clearSession } = useSession();
   const [isOpen, setIsOpen] = useState(false);
 
-  const navigation = [
+  const { isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
+
+  // Public navigation items
+  const publicNavigation = [
     { name: 'Home', href: '/', current: location.pathname === '/' },
-    { name: 'My Profile', href: '/profile', current: location.pathname === '/profile' },
-    { name: 'Recommendations', href: '/recommendations', current: location.pathname === '/recommendations' },
     { name: 'Universities', href: '/universities', current: location.pathname === '/universities' },
     { name: 'About', href: '/about', current: location.pathname === '/about' },
   ];
+
+  // Authenticated user navigation items
+  const authNavigation = [
+    { name: 'Dashboard', href: '/dashboard', current: location.pathname === '/dashboard' },
+    { name: 'My Profile', href: '/profile', current: location.pathname === '/profile' },
+    { name: 'Recommendations', href: '/recommendations', current: location.pathname === '/recommendations' },
+    { name: 'Universities', href: '/universities', current: location.pathname === '/universities' },
+  ];
+
+  const navigation = isAuthenticated ? authNavigation : publicNavigation;
 
   const toggleLanguage = () => {
     setLanguage(language === 'en' ? 'fr' : 'en');
@@ -100,6 +119,44 @@ const Header: React.FC = () => {
 
             {/* Mobile Menu */}
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
+              <div className="flex items-center space-x-2">
+                <Button variant="outline" size="sm" onClick={toggleLanguage} className="h-9 w-9 p-0">
+                  <Globe className="h-4 w-4" />
+                  <span className="sr-only">Toggle language</span>
+                </Button>
+                {isAuthenticated ? (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="outline" size="sm" className="h-9">
+                        <User className="h-4 w-4 mr-2" />
+                        My Account
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem onClick={() => navigate('/profile')}>
+                        <User className="h-4 w-4 mr-2" />
+                        Profile
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem onClick={logout}>
+                        <LogIn className="h-4 w-4 mr-2" />
+                        Sign Out
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                ) : (
+                  <>
+                    <Button variant="outline" size="sm" className="h-9" onClick={() => navigate('/login')}>
+                      <LogIn className="h-4 w-4 mr-2" />
+                      Sign In
+                    </Button>
+                    <Button size="sm" className="h-9" onClick={() => navigate('/register')}>
+                      <UserPlus className="h-4 w-4 mr-2" />
+                      Register
+                    </Button>
+                  </>
+                )}
+              </div>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="md:hidden">
                   <Menu className="h-5 w-5" />
