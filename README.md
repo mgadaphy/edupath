@@ -106,11 +106,11 @@ Contributions are welcome! Please read our [Contributing Guidelines](CONTRIBUTIN
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/mgadaphy/edupath/blob/main/LICENSE) file for details.
 
 ## Acknowledgments
 
-- [Google ADK](https://developers.google.com/agent-development-kit) for the agent development framework
+- [Google ADK (GitHub)](https://github.com/google/adk-python) and [Google Vertex AI Agent Development Kit](https://cloud.google.com/vertex-ai/generative-ai/docs/agent-development-kit/quickstart) for the agent development framework
 - [FastAPI](https://fastapi.tiangolo.com/) for the backend framework
 - [React](https://reactjs.org/) for the frontend library
 - [Radix UI](https://www.radix-ui.com/) for accessible UI components
