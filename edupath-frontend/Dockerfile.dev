@@ -1,0 +1,23 @@
+# Development stage
+FROM node:18-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files
+COPY package*.json pnpm-lock.yaml* ./
+
+# Install pnpm
+RUN npm install -g pnpm
+
+# Install dependencies
+RUN pnpm install
+
+# Copy the rest of the application
+COPY . .
+
+# Expose port 3000 for development server
+EXPOSE 3000
+
+# Start development server with explicit port
+CMD ["pnpm", "run", "dev", "--host", "0.0.0.0", "--port", "3000"]
